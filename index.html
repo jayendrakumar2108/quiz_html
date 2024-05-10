@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="quizApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('quizApp', []);
+        app.controller('QuizController', function($scope) {
+            $scope.questions = [
+                {
+                    question: 'Where is LPU?',
+                    options: ['India', 'USA', 'UK', 'Japan'],
+                    correctAnswer: 'India',
+                    selectedAnswer: null
+                },
+                {
+                    question: 'Capital of India',
+                    options: ['Delhi', 'Hydrabad', 'Bengaluru', 'Chennai'],
+                    correctAnswer: 'Delhi',
+                    selectedAnswer: null
+                }
+            ];
+
+            $scope.score = 0;
+
+            $scope.checkAnswer = function() {
+                $scope.score = 0;
+                for (var i = 0; i < $scope.questions.length; i++) {
+                    if ($scope.questions[i].selectedAnswer === $scope.questions[i].correctAnswer) {
+                        $scope.score++;
+                    }
+                }
+            };
+        });
+    </script>
+</head>
+<body ng-controller="QuizController">
+    <h1>Quiz</h1>
+    <div ng-repeat="question in questions">
+        <h3>{{ question.question }}</h3>
+        <ul>
+            <li ng-repeat="option in question.options">
+                <label>
+                    <input type="radio" ng-model="question.selectedAnswer" ng-value="option">{{ option }}
+                </label>
+            </li>
+        </ul>
+    </div>
+    <button ng-click="checkAnswer()">Submit</button>
+    <div ng-if="score > 0">
+        <h2>Your Score: {{ score }}/{{ questions.length }}</h2>
+    </div>
+</body>
+</html>
